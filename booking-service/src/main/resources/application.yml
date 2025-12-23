@@ -5,9 +5,9 @@ spring:
   application:
     name: booking-service
   datasource:
-    url: jdbc:mysql://localhost:3306/bookingdb
+    url: jdbc:mysql://localhost:3306/bookingdb?createDatabaseIfNotExist=true
     username: root
-    password: Deepak@32
+    password: ankur@1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
     compatibility-verifier:
