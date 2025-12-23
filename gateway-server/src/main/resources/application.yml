@@ -1,0 +1,53 @@
+server:
+  port: 5000
+
+spring:
+  application:
+    name: GATEWAY-SERVER
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/auth/**,/api/users/**,/api/admin/users/**,/users/**
+        - id: SALON-SERVICE
+          uri: lb://SALON-SERVICE
+          predicates:
+            - Path=/api/salon/**,/salon/**,/api/admin/salon/**
+        - id: CATEGORY-SERVICE
+          uri: lb://CATEGORY-SERVICE
+          predicates:
+            - Path=/api/categories/**
+        - id: SERVICE-OFFERING
+          uri: lb://SERVICE-OFFERING
+          predicates:
+            - Path=/api/service-offerings/**
+        - id: BOOKING-SERVICE
+          uri: lb://BOOKING-SERVICE
+          predicates:
+            - Path=/api/bookings/**
+        - id: PAYMENT-SERVICE
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/api/payments/**
+        - id: NOTIFICATIONS-SERVICE
+          uri: lb://NOTIFICATIONS-SERVICE
+          predicates:
+            - Path=/api/notifications/**
+  security:
+    oauth2:
+      resource server:
+        jwt:
+          jwk-set-uri: "http://localhost:8080/realms/master/protocol/openid-connect/certs"
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
