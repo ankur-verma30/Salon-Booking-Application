@@ -1,4 +1,4 @@
-package com.salon.salonservice.dto;
+package com.salon.offerings.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,8 +12,6 @@ import lombok.Setter;
 public class UserDTO {
 
     private Long id;
-
     private String fullName;
-
     private String email;
 }

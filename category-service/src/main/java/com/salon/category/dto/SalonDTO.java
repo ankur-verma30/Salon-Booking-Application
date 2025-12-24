@@ -1,4 +1,4 @@
-package com.salon.salonservice.dto;
+package com.salon.category.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

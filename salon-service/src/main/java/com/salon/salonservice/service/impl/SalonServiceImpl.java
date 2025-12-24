@@ -17,23 +17,23 @@ public class SalonServiceImpl implements SalonService {
     private final SalonRepository salonRepository;
 
     @Override
-    public Salon createSalon(SalonDTO req, UserDTO user) {
+    public Salon createSalon(SalonDTO salonDTO, UserDTO userDTO) { //change UserDTO to user make toDTO method in Salon entity
         Salon salon = new Salon();
-        salon.setName(req.getName());
-        salon.setAddress(req.getAddress());
-        salon.setEmail(req.getEmail());
-        salon.setCity(req.getCity());
-        salon.setImages(req.getImages());
-        salon.setOwnerId(user.getId());
-        salon.setOpenTime(req.getOpenTime());
-        salon.setCloseTime(req.getCloseTime());
-        salon.setPhoneNumber(req.getPhoneNumber());
+        salon.setName(salonDTO.getName());
+        salon.setAddress(salonDTO.getAddress());
+        salon.setEmail(salonDTO.getEmail());
+        salon.setCity(salonDTO.getCity());
+        salon.setImages(salonDTO.getImages());
+        salon.setOwnerId(userDTO.getId());
+        salon.setOpenTime(salonDTO.getOpenTime());
+        salon.setCloseTime(salonDTO.getCloseTime());
+        salon.setPhoneNumber(salonDTO.getPhoneNumber());
         return salonRepository.save(salon);
     }
 
     @Override
     public Salon updateSalon(SalonDTO salon, UserDTO user, Long salonId) throws Exception{
-        Salon existingSalon = salonRepository.findById(salonId).orElseThrow(null);
+        Salon existingSalon = salonRepository.findById(salonId).orElseThrow(null); //also fix this method
         if(!salon.getOwnerId().equals(user.getId())){
             throw new Exception("You don't have permission to update this salon");
         }

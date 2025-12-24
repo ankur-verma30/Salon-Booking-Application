@@ -5,9 +5,9 @@ spring:
   application:
     name: category-service
   datasource:
-    url: jdbc:mysql://localhost:3306/categorydb
+    url: jdbc:mysql://localhost:3306/categorydb?createDatabaseIfNotExist=true
     username: root
-    password: Deepak@32
+    password: ankur@1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
     compatibility-verifier:
@@ -24,5 +24,3 @@ eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8070/eureka/

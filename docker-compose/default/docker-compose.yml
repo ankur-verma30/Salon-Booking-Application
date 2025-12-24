@@ -311,7 +311,7 @@ services:
     
     environment:
       SPRING_APPLICATION_NAME: GATEWAY-SERVER 
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
 
     deploy:
       resources:

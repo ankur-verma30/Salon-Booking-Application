@@ -3,7 +3,7 @@ package com.salon.salonservice.mapper;
 import com.salon.salonservice.entity.Salon;
 import com.salon.salonservice.dto.SalonDTO;
 
-public class SalonMapper {
+public class SalonMapper {  //remove this mapper class and make a method in entity class Salon
 
     public static SalonDTO mapToDTO(Salon salon){
         SalonDTO salonDTO = new SalonDTO();
