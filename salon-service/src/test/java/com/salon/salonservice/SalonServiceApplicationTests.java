@@ -1,4 +1,4 @@
-package com.salon.user;
+package com.salon.salonservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

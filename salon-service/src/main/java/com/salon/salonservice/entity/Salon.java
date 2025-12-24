@@ -1,4 +1,4 @@
-package com.salon.user.entity;
+package com.salon.salonservice.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

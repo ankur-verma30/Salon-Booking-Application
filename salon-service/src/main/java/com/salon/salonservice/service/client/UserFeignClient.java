@@ -1,6 +1,6 @@
-package com.salon.user.service.client;
+package com.salon.salonservice.service.client;
 
-import com.salon.user.payload.dto.UserDTO;
+import com.salon.salonservice.dto.UserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

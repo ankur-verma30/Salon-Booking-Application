@@ -1,8 +1,8 @@
-package com.salon.user.service;
+package com.salon.salonservice.service;
 
-import com.salon.user.entity.Salon;
-import com.salon.user.payload.dto.SalonDTO;
-import com.salon.user.payload.dto.UserDTO;
+import com.salon.salonservice.entity.Salon;
+import com.salon.salonservice.dto.SalonDTO;
+import com.salon.salonservice.dto.UserDTO;
 
 import java.util.List;
 

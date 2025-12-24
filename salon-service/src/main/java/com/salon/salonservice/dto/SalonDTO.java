@@ -1,4 +1,4 @@
-package com.salon.user.payload.dto;
+package com.salon.salonservice.dto;
 import lombok.Getter;
 import lombok.Setter;
 

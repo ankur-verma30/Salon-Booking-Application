@@ -1,4 +1,4 @@
-package com.salon.user.payload.response;
+package com.salon.salonservice.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

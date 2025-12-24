@@ -1,7 +1,7 @@
-package com.salon.user.mapper;
+package com.salon.salonservice.mapper;
 
-import com.salon.user.entity.Salon;
-import com.salon.user.payload.dto.SalonDTO;
+import com.salon.salonservice.entity.Salon;
+import com.salon.salonservice.dto.SalonDTO;
 
 public class SalonMapper {
 

@@ -7,8 +7,9 @@ import com.salon.user.repository.UserRepository;
 import com.salon.user.service.KeycloakService;
 import com.salon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +18,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
     private final KeycloakService keycloakService;
 
     @Override
@@ -45,8 +46,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) throws UserException {
-        Optional<User> otp = userRepository.findById(id);
-        if(otp.isEmpty()){
+        Optional<User> user = userRepository.findById(id);
+        if(user.isEmpty()){
             throw new UserException("User not found with id " + id);
         }
         userRepository.deleteById(id);
@@ -54,12 +55,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User updateUser(Long id, User user) throws UserException {
-        Optional<User> otp = userRepository.findById(id);
-        if(otp.isEmpty()){
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isEmpty()){
             throw new UserException("User not found with id " + id);
         }
-        User existingUser = otp.get();
+        User existingUser = optionalUser.get();
         existingUser.setFullName(user.getFullName());
         existingUser.setEmail(user.getEmail());
         existingUser.setRole(user.getRole());

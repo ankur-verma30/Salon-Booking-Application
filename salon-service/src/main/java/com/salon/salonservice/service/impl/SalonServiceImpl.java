@@ -1,10 +1,10 @@
-package com.salon.user.service.impl;
+package com.salon.salonservice.service.impl;
 
-import com.salon.user.entity.Salon;
-import com.salon.user.payload.dto.SalonDTO;
-import com.salon.user.payload.dto.UserDTO;
-import com.salon.user.repository.SalonRepository;
-import com.salon.user.service.SalonService;
+import com.salon.salonservice.entity.Salon;
+import com.salon.salonservice.dto.SalonDTO;
+import com.salon.salonservice.dto.UserDTO;
+import com.salon.salonservice.repository.SalonRepository;
+import com.salon.salonservice.service.SalonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

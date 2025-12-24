@@ -1,11 +1,11 @@
-package com.salon.user.controller;
+package com.salon.salonservice.controller;
 
-import com.salon.user.mapper.SalonMapper;
-import com.salon.user.entity.Salon;
-import com.salon.user.payload.dto.SalonDTO;
-import com.salon.user.payload.dto.UserDTO;
-import com.salon.user.service.SalonService;
-import com.salon.user.service.client.UserFeignClient;
+import com.salon.salonservice.mapper.SalonMapper;
+import com.salon.salonservice.entity.Salon;
+import com.salon.salonservice.dto.SalonDTO;
+import com.salon.salonservice.dto.UserDTO;
+import com.salon.salonservice.service.SalonService;
+import com.salon.salonservice.service.client.UserFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

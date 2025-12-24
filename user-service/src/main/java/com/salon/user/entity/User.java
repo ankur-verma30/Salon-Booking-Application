@@ -4,16 +4,16 @@ import com.salon.user.domain.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(uniqueConstraints = {
@@ -37,6 +37,8 @@ public class User {
     private String phone;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    @NotNull(message = "Role is mandatory")
     private UserRole role;
 
     @CreationTimestamp
@@ -44,7 +46,7 @@ public class User {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-    @NotBlank(message = "password is mandatory")
 
+    @NotBlank(message = "password is mandatory")
     private String password;
 }

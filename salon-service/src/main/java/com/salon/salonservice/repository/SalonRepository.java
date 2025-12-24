@@ -1,6 +1,6 @@
-package com.salon.user.repository;
+package com.salon.salonservice.repository;
 
-import com.salon.user.entity.Salon;
+import com.salon.salonservice.entity.Salon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
