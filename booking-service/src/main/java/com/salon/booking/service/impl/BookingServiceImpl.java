@@ -7,7 +7,7 @@ import com.salon.booking.dto.ServiceDTO;
 import com.salon.booking.dto.UserDTO;
 import com.salon.booking.entity.Booking;
 import com.salon.booking.entity.PaymentOrder;
-import com.salon.booking.entity.SalonReport;
+import com.salon.booking.dto.SalonReport;
 import com.salon.booking.repository.BookingRepository;
 import com.salon.booking.service.BookingService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,6 @@ public class BookingServiceImpl implements BookingService {
         LocalDateTime bookingStartTime = booking.getStartTime();
         LocalDateTime bookingEndTime = bookingStartTime.plusMinutes(totalDuration);
 
-        Boolean isSlotAvailable = isTimeSlotAvailable(salonDTO, bookingStartTime, bookingEndTime);
         int totalPrice = serviceDTOSet.stream()
                 .mapToInt(ServiceDTO::getPrice)
                 .sum();
@@ -73,19 +72,16 @@ public class BookingServiceImpl implements BookingService {
             LocalDateTime existingStart = existingBooking.getStartTime();
             LocalDateTime existingEnd = existingBooking.getEndTime();
 
-            boolean isOverlapping =
-                    bookingStartTime.isBefore(existingEnd) &&
-                            bookingEndTime.isAfter(existingStart);
-
-            if (isOverlapping) {
+            if (bookingStartTime.isBefore(existingEnd) &&
+                    bookingEndTime.isAfter(existingStart)) {
+                throw new Exception("Slot not available choose different time slot.");
+            }
+            if(bookingStartTime.isEqual(existingStart) || bookingEndTime.isEqual(existingEnd)){
                 throw new Exception("Slot not available choose different time slot.");
             }
         }
-
         return true;
     }
-
-
 
     @Override
     public List<Booking> getBookingsByCustomer(Long customerId) {
@@ -99,11 +95,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking getBookingById(Long id) throws Exception {
-        Booking booking = bookingRepository.findById(id).orElseThrow(null);
-        if(booking == null){
-            throw new Exception("Booking not found");
-        }
-        return booking;
+        return bookingRepository.findById(id).orElseThrow(() -> new Exception("Booking not found"));
     }
 
     @Override
@@ -123,8 +115,7 @@ public class BookingServiceImpl implements BookingService {
         }
         return allBookings.stream()
                 .filter(booking -> isSameDate(booking.getStartTime(), date)||
-                        isSameDate(booking.getEndTime(), date))
-                .collect(Collectors.toList());
+                        isSameDate(booking.getEndTime(), date)).toList();
     }
 
     private boolean isSameDate(LocalDateTime dateTime, LocalDate date){
@@ -139,8 +130,7 @@ public class BookingServiceImpl implements BookingService {
                 .sum();
         Integer totalBooking = bookings.size();
         List<Booking> cancelledBookings = bookings.stream()
-                .filter(booking -> booking.getStatus().equals(BookingStatus.CANCELLED))
-                .collect(Collectors.toList());
+                .filter(booking -> booking.getStatus().equals(BookingStatus.CANCELLED)).toList();
 
         Double totalRefund = cancelledBookings.stream()
                 .mapToDouble(Booking::getTotalPrice)

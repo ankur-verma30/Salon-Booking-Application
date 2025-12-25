@@ -5,13 +5,14 @@ import com.salon.booking.domain.PaymentMethod;
 import com.salon.booking.dto.*;
 import com.salon.booking.mapper.BookingMapper;
 import com.salon.booking.entity.Booking;
-import com.salon.booking.entity.SalonReport;
+import com.salon.booking.dto.SalonReport;
 import com.salon.booking.service.BookingService;
 import com.salon.booking.service.client.PaymentFeignClient;
 import com.salon.booking.service.client.SalonFeignClient;
 import com.salon.booking.service.client.ServiceOfferingFeignClient;
 import com.salon.booking.service.client.UserFeignClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class BookingController {
     private final ServiceOfferingFeignClient serviceOfferingFeignClient;
     private final PaymentFeignClient paymentFeignClient;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<PaymentLinkResponse> createBooking(@RequestParam Long salonId,
                                                  @RequestParam PaymentMethod paymentMethod,
                                                  @RequestBody BookingRequest bookingRequest,
@@ -43,8 +44,8 @@ public class BookingController {
 
         Set<ServiceDTO> serviceDTOSet = serviceOfferingFeignClient.getServicesByIds(bookingRequest.getServiceIds()).getBody();
 
-        if(serviceDTOSet.isEmpty()){
-            throw new Exception("Service not found");
+        if(serviceDTOSet==null){
+            throw new NullPointerException("Service not found");
         }
 
         Booking booking = bookingService.createBooking(bookingRequest, user, salon, serviceDTOSet);
@@ -53,7 +54,7 @@ public class BookingController {
 
         PaymentLinkResponse res = paymentFeignClient.createPaymentLink(bookingDTO, paymentMethod, jwt).getBody();
 
-        return ResponseEntity.ok(res);
+        return ResponseEntity.status(HttpStatus.CREATED).body(res);
 
     }
 
@@ -70,6 +71,7 @@ public class BookingController {
 
         return ResponseEntity.ok(getBookingDTOs(bookings));
     }
+
 
     private Set<BookingDTO> getBookingDTOs(List<Booking> bookings){
         return bookings.stream()
@@ -88,22 +90,23 @@ public class BookingController {
         return ResponseEntity.ok(getBookingDTOs(bookings));
     }
 
-    @GetMapping("/{bookingId}")
+    @GetMapping("/get/{bookingId}")
     public ResponseEntity<BookingDTO> getBookingById(@PathVariable Long bookingId) throws Exception {
         Booking booking = bookingService.getBookingById(bookingId);
 
         return ResponseEntity.ok(BookingMapper.toDTO(booking));
     }
 
-    @PutMapping("/{bookingId}/status")
+    @PutMapping("/update/{bookingId}/status")
     public ResponseEntity<BookingDTO> updateBookingStatus(@PathVariable Long bookingId, @RequestParam BookingStatus status) throws Exception {
 
         Booking booking = bookingService.updateBooking(bookingId,status);
         return ResponseEntity.ok(BookingMapper.toDTO(booking));
     }
 
-    @GetMapping("/slots/salon/{salonId}/date/{date}")
-    public ResponseEntity<List<BookingSlotDTO>> getBookedSlot(@PathVariable Long salonId, @RequestParam(required = false) LocalDate date){
+    @GetMapping("/slots/salon/{salonId}/date")
+    public ResponseEntity<List<BookingSlotDTO>> getBookedSlot(@PathVariable Long salonId,
+                                                              @RequestParam(required = false) LocalDate date){
         List<Booking> bookings = bookingService.getBookingsByDate(date, salonId);
         List<BookingSlotDTO> slotDTOS = bookings.stream()
                 .map(booking -> {
@@ -111,7 +114,7 @@ public class BookingController {
                     slotDTO.setStartTime(booking.getStartTime());
                     slotDTO.setEndTime(booking.getEndTime());
                     return slotDTO;
-                }).collect(Collectors.toList());
+                }).toList();
 
         return ResponseEntity.ok(slotDTOS);
     }

@@ -7,7 +7,7 @@ import com.salon.booking.dto.ServiceDTO;
 import com.salon.booking.dto.UserDTO;
 import com.salon.booking.entity.Booking;
 import com.salon.booking.entity.PaymentOrder;
-import com.salon.booking.entity.SalonReport;
+import com.salon.booking.dto.SalonReport;
 
 import java.time.LocalDate;
 import java.util.List;
