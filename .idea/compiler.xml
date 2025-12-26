@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-server" />
+        <module name="admin-server" />
         <module name="user-service" />
       </profile>
       <profile name="Annotation profile for salon-service" enabled="true">
@@ -19,7 +20,7 @@
         </processorPath>
         <module name="salon-service" />
       </profile>
-      <profile name="Annotation profile for booking-service" enabled="true">
+      <profile name="Annotation profile for notifications-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -41,6 +42,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="admin-server" options="-parameters" />
       <module name="booking-service" options="-parameters" />
       <module name="category-service" options="-parameters" />
       <module name="eureka-server" options="-parameters" />

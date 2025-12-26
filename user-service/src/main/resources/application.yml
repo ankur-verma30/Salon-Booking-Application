@@ -13,6 +13,13 @@ spring:
     compatibility-verifier:
       enabled: false
 
+  boot:
+    admin:
+      client:
+        url: http://localhost:1111
+        instance:
+          prefer-ip: true
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -31,3 +38,12 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     operationsSorter: alpha
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

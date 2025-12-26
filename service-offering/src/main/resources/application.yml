@@ -18,6 +18,12 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  boot:
+    admin:
+      client:
+        url: http://localhost:1111
+        instance:
+          prefer-ip: true
 eureka:
   instance:
     prefer-ip-address: true
@@ -31,3 +37,12 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     operationsSorter: alpha
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

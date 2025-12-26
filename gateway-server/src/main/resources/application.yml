@@ -102,11 +102,72 @@ spring:
           filters:
             - RewritePath=/v3/api-docs/notification, /v3/api-docs
 
+        # ----------------------------------------------------
+        # ACTUATOR ROUTES (PROXY THROUGH GATEWAY)
+        # ----------------------------------------------------
+        - id: USER-SERVICE-ACTUATOR
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/actuator/user/**
+          filters:
+            - RewritePath=/actuator/user/(?<path>.*), /actuator/${path}
+
+        - id: SALON-SERVICE-ACTUATOR
+          uri: lb://SALON-SERVICE
+          predicates:
+            - Path=/actuator/salon/**
+          filters:
+            - RewritePath=/actuator/salon/(?<path>.*), /actuator/${path}
+
+        - id: CATEGORY-SERVICE-ACTUATOR
+          uri: lb://CATEGORY-SERVICE
+          predicates:
+            - Path=/actuator/category/**
+          filters:
+            - RewritePath=/actuator/category/(?<path>.*), /actuator/${path}
+
+        - id: SERVICE-OFFERING-ACTUATOR
+          uri: lb://SERVICE-OFFERING
+          predicates:
+            - Path=/actuator/service-offering/**
+          filters:
+            - RewritePath=/actuator/service-offering/(?<path>.*), /actuator/${path}
+
+        - id: BOOKING-SERVICE-ACTUATOR
+          uri: lb://BOOKING-SERVICE
+          predicates:
+            - Path=/actuator/booking/**
+          filters:
+            - RewritePath=/actuator/booking/(?<path>.*), /actuator/${path}
+
+        - id: PAYMENT-SERVICE-ACTUATOR
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/actuator/payment/**
+          filters:
+            - RewritePath=/actuator/payment/(?<path>.*), /actuator/${path}
+
+        - id: NOTIFICATION-SERVICE-ACTUATOR
+          uri: lb://NOTIFICATIONS-SERVICE
+          predicates:
+            - Path=/actuator/notification/**
+          filters:
+            - RewritePath=/actuator/notification/(?<path>.*), /actuator/${path}
+
+
   security:
     oauth2:
       resource-server:
         jwt:
           jwk-set-uri: "http://localhost:8080/realms/master/protocol/openid-connect/certs"
+
+  boot:
+    admin:
+      client:
+        url: http://localhost:1111
+        instance:
+          prefer-ip: true
+
 
 springdoc:
   swagger-ui:
@@ -133,3 +194,12 @@ eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
