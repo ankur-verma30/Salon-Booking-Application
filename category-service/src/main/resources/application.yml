@@ -24,3 +24,10 @@ eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: alpha

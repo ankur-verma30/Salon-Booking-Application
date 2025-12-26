@@ -40,3 +40,10 @@ razorpay:
 stripe:
   api:
     key: "YOUR_STRIPE_KEY"
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: alpha

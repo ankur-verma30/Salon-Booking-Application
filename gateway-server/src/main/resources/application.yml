@@ -11,43 +11,125 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+
       routes:
+        # MAIN ROUTES (unchanged)
         - id: USER-SERVICE
           uri: lb://USER-SERVICE
           predicates:
             - Path=/auth/**,/api/users/**,/api/admin/users/**,/users/**
+
         - id: SALON-SERVICE
           uri: lb://SALON-SERVICE
           predicates:
             - Path=/api/salon/**,/salon/**,/api/admin/salon/**
+
         - id: CATEGORY-SERVICE
           uri: lb://CATEGORY-SERVICE
           predicates:
             - Path=/api/categories/**
+
         - id: SERVICE-OFFERING
           uri: lb://SERVICE-OFFERING
           predicates:
             - Path=/api/service-offerings/**
+
         - id: BOOKING-SERVICE
           uri: lb://BOOKING-SERVICE
           predicates:
             - Path=/api/bookings/**
+
         - id: PAYMENT-SERVICE
           uri: lb://PAYMENT-SERVICE
           predicates:
             - Path=/api/payments/**
+
         - id: NOTIFICATIONS-SERVICE
           uri: lb://NOTIFICATIONS-SERVICE
           predicates:
             - Path=/api/notifications/**
+
+
+        # ----------------------------------------------------
+        # SWAGGER ROUTES (NEW & CORRECTLY MAPPED)
+        # ----------------------------------------------------
+        - id: USER-SERVICE-SWAGGER
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/v3/api-docs/user
+          filters:
+            - RewritePath=/v3/api-docs/user, /v3/api-docs
+
+        - id: SALON-SERVICE-SWAGGER
+          uri: lb://SALON-SERVICE
+          predicates:
+            - Path=/v3/api-docs/salon
+          filters:
+            - RewritePath=/v3/api-docs/salon, /v3/api-docs
+
+        - id: CATEGORY-SERVICE-SWAGGER
+          uri: lb://CATEGORY-SERVICE
+          predicates:
+            - Path=/v3/api-docs/category
+          filters:
+            - RewritePath=/v3/api-docs/category, /v3/api-docs
+
+        - id: SERVICE-OFFERING-SWAGGER
+          uri: lb://SERVICE-OFFERING
+          predicates:
+            - Path=/v3/api-docs/service-offering
+          filters:
+            - RewritePath=/v3/api-docs/service-offering, /v3/api-docs
+
+        - id: BOOKING-SERVICE-SWAGGER
+          uri: lb://BOOKING-SERVICE
+          predicates:
+            - Path=/v3/api-docs/booking
+          filters:
+            - RewritePath=/v3/api-docs/booking, /v3/api-docs
+
+        - id: PAYMENT-SERVICE-SWAGGER
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/v3/api-docs/payment
+          filters:
+            - RewritePath=/v3/api-docs/payment, /v3/api-docs
+
+        - id: NOTIFICATION-SERVICE-SWAGGER
+          uri: lb://NOTIFICATIONS-SERVICE
+          predicates:
+            - Path=/v3/api-docs/notification
+          filters:
+            - RewritePath=/v3/api-docs/notification, /v3/api-docs
+
   security:
     oauth2:
-      resource server:
+      resource-server:
         jwt:
           jwk-set-uri: "http://localhost:8080/realms/master/protocol/openid-connect/certs"
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: User Service
+        url: /v3/api-docs/user
+      - name: Salon Service
+        url: /v3/api-docs/salon
+      - name: Category Service
+        url: /v3/api-docs/category
+      - name: Service Offering Service
+        url: /v3/api-docs/service-offering
+      - name: Booking Service
+        url: /v3/api-docs/booking
+      - name: Payment Service
+        url: /v3/api-docs/payment
+      - name: Notification Service
+        url: /v3/api-docs/notification
+
+
+
+
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8070/eureka/

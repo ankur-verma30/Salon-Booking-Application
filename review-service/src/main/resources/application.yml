@@ -4,9 +4,9 @@ spring:
   application:
     name: review-service
   datasource:
-    url: jdbc:mysql://localhost:3306/reviewsdb
+    url: jdbc:mysql://localhost:3306/reviewsdb?createDatabaseIfNotExist=true
     username: root
-    password: Deepak@32
+    password: ankur@1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
     compatibility-verifier:
@@ -23,5 +23,10 @@ eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8070/eureka/
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: alpha
